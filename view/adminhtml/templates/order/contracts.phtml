@@ -1,0 +1,67 @@
+<?php
+/*
+ * Copyright (c) 2026 WebWorks 101 OÜ (MageBooster). All rights reserved.
+ * Commercial licence, see LICENSE.txt. https://magebooster.com
+ * Licensed per serial number for one production installation (one store domain); staging and
+ * development copies of that store are allowed. Serial numbers and downloads are tied to the customer.
+ * You may modify this code for your own licensed store; keep this notice.
+ * Not allowed: copying to other stores, redistributing, reselling, sublicensing, publishing it publicly,
+ * removing licence checks or notices, sharing serial numbers. Unauthorised use: the serial number is
+ * revoked without refund, updates and support stop, damages and legal action may follow.
+ * Estonian law applies; court: Harju County Court (Harju Maakohus).
+ */
+/**
+ * @var \MageBooster\Contract\Block\Adminhtml\Order\View\Tab\Contracts $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+$records = $block->getRecords();
+?>
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?= $escaper->escapeHtml(__('Order contracts')) ?></span>
+    </div>
+    <?php if (!$records): ?>
+        <div class="message message-notice">
+            <div><?= $escaper->escapeHtml(__('No contract has been saved for this order (it may have been placed before the module was enabled).')) ?></div>
+        </div>
+        <?php if ($block->canGenerate()): ?>
+            <form method="post" action="<?= $escaper->escapeUrl($block->getGenerateUrl()) ?>">
+                <?= $block->getBlockHtml('formkey') ?>
+                <p><?= $escaper->escapeHtml(__('The contract is created with the current order data and the active agreement text, and is marked as "created later".')) ?></p>
+                <button type="submit" class="action-secondary"><span><?= $escaper->escapeHtml(__('Create contracts now')) ?></span></button>
+            </form>
+        <?php endif; ?>
+    <?php else: ?>
+        <table class="admin__table-secondary data-table">
+            <thead>
+            <tr>
+                <th><?= $escaper->escapeHtml(__('Agreement')) ?></th>
+                <th><?= $escaper->escapeHtml(__('Recorded at')) ?></th>
+                <th><?= $escaper->escapeHtml(__('Customer IP')) ?></th>
+                <th><?= $escaper->escapeHtml(__('Document hash (SHA-256)')) ?></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($records as $record): ?>
+                <tr>
+                    <td>
+                        <?= $escaper->escapeHtml($record->getAgreementName()) ?>
+                        <?php if ($record->getIsBackfilled()): ?>
+                            <br><small><?= $escaper->escapeHtml(__('(created later)')) ?></small>
+                        <?php endif; ?>
+                    </td>
+                    <td><?= $escaper->escapeHtml($block->formatCreatedAt($record)) ?></td>
+                    <td><?= $escaper->escapeHtml($record->getCustomerIp()) ?></td>
+                    <td><code style="font-size:11px"><?= $escaper->escapeHtml($record->getContentHash()) ?></code></td>
+                    <td style="white-space:nowrap">
+                        <a href="<?= $escaper->escapeUrl($block->getViewUrl($record)) ?>" target="_blank" rel="noopener"><?= $escaper->escapeHtml(__('View')) ?></a>
+                        &nbsp;|&nbsp;
+                        <a href="<?= $escaper->escapeUrl($block->getDownloadUrl($record)) ?>"><?= $escaper->escapeHtml(__('Download')) ?></a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
+</section>

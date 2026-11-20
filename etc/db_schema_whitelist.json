@@ -1,0 +1,26 @@
+{
+    "magebooster_contract_record": {
+        "column": {
+            "entity_id": true,
+            "order_id": true,
+            "increment_id": true,
+            "store_id": true,
+            "agreement_id": true,
+            "agreement_name": true,
+            "content": true,
+            "content_hash": true,
+            "pdf_path": true,
+            "customer_ip": true,
+            "is_backfilled": true,
+            "created_at": true
+        },
+        "index": {
+            "MAGEBOOSTER_CONTRACT_RECORD_INCREMENT_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "MAGEBOOSTER_CONTRACT_RECORD_ORDER_ID_AGREEMENT_ID": true,
+            "MAGEBOOSTER_CONTRACT_RECORD_ORDER_ID_SALES_ORDER_ENTITY_ID": true
+        }
+    }
+}

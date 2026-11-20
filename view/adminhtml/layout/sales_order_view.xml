@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+  Copyright (c) 2026 WebWorks 101 OÜ (MageBooster). All rights reserved.
+  Commercial licence, see LICENSE.txt. https://magebooster.com
+  Licensed per serial number for one production installation (one store domain); staging and
+  development copies of that store are allowed. Serial numbers and downloads are tied to the customer.
+  You may modify this code for your own licensed store; keep this notice.
+  Not allowed: copying to other stores, redistributing, reselling, sublicensing, publishing it publicly,
+  removing licence checks or notices, sharing serial numbers. Unauthorised use: the serial number is
+  revoked without refund, updates and support stop, damages and legal action may follow.
+  Estonian law applies; court: Harju County Court (Harju Maakohus).
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="sales_order_tabs">
+            <block class="MageBooster\Contract\Block\Adminhtml\Order\View\Tab\Contracts" name="magebooster_contract.order.tab" template="MageBooster_Contract::order/contracts.phtml"/>
+            <action method="addTabAfter">
+                <argument name="tabId" xsi:type="string">magebooster_contracts</argument>
+                <argument name="block" xsi:type="string">magebooster_contract.order.tab</argument>
+                <argument name="afterTabId" xsi:type="string">order_history</argument>
+            </action>
+        </referenceBlock>
+    </body>
+</page>

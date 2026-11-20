@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+  Copyright (c) 2026 WebWorks 101 OÜ (MageBooster). All rights reserved.
+  Commercial licence, see LICENSE.txt. https://magebooster.com
+  Licensed per serial number for one production installation (one store domain); staging and
+  development copies of that store are allowed. Serial numbers and downloads are tied to the customer.
+  You may modify this code for your own licensed store; keep this notice.
+  Not allowed: copying to other stores, redistributing, reselling, sublicensing, publishing it publicly,
+  removing licence checks or notices, sharing serial numbers. Unauthorised use: the serial number is
+  revoked without refund, updates and support stop, damages and legal action may follow.
+  Estonian law applies; court: Harju County Court (Harju Maakohus).
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="magebooster_contract_record" resource="sales" engine="innodb" comment="MageBooster Contract: filled agreements per order">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Record ID"/>
+        <column xsi:type="int" name="order_id" unsigned="true" nullable="false" comment="Order ID"/>
+        <column xsi:type="varchar" name="increment_id" length="50" nullable="true" comment="Order number"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="true" comment="Store ID"/>
+        <column xsi:type="int" name="agreement_id" unsigned="true" nullable="false" comment="Agreement ID"/>
+        <column xsi:type="varchar" name="agreement_name" length="255" nullable="true" comment="Agreement name"/>
+        <column xsi:type="mediumtext" name="content" nullable="false" comment="Filled HTML"/>
+        <column xsi:type="varchar" name="content_hash" length="64" nullable="false" comment="SHA-256 of the content"/>
+        <column xsi:type="varchar" name="pdf_path" length="255" nullable="true" comment="PDF path under var/"/>
+        <column xsi:type="varchar" name="customer_ip" length="45" nullable="true" comment="Customer IP"/>
+        <column xsi:type="boolean" name="is_backfilled" nullable="false" default="0" comment="Created later, not when the order was placed"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created at"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="MAGEBOOSTER_CONTRACT_RECORD_ORDER_ID_AGREEMENT_ID">
+            <column name="order_id"/>
+            <column name="agreement_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="MAGEBOOSTER_CONTRACT_RECORD_ORDER_ID_SALES_ORDER_ENTITY_ID"
+                    table="magebooster_contract_record" column="order_id"
+                    referenceTable="sales_order" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <index referenceId="MAGEBOOSTER_CONTRACT_RECORD_INCREMENT_ID" indexType="btree">
+            <column name="increment_id"/>
+        </index>
+    </table>
+</schema>

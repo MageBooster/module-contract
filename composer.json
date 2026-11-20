@@ -1,0 +1,55 @@
+{
+    "name": "magebooster/module-contract",
+    "description": "Fills in the Turkish distance sales contract and preliminary information form automatically at checkout — required by Turkish payment providers (iyzico, PayTR, Moka, Rubikpara, Ödeal …). Saves the filled contract with every order (HTML and PDF) and attaches it to the order email. Needs a MageBooster serial number.",
+    "type": "magento2-module",
+    "keywords": [
+        "magento2",
+        "magento-2-module",
+        "hyva",
+        "luma",
+        "checkout",
+        "terms-and-conditions",
+        "mesafeli-satis-sozlesmesi",
+        "on-bilgilendirme-formu",
+        "distance-sales-contract",
+        "turkey"
+    ],
+    "homepage": "https://magebooster.com",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "WebWorks 101 OÜ",
+            "homepage": "https://magebooster.com"
+        }
+    ],
+    "support": {
+        "email": "info@magebooster.com",
+        "docs": "https://github.com/MageBooster/module-contract/blob/main/docs/HOWTO.en.md"
+    },
+    "require": {
+        "php": ">=8.0",
+        "ext-json": "*",
+        "magento/framework": "^103.0",
+        "magento/module-backend": "^102.0",
+        "magento/module-checkout": "^100.4",
+        "magento/module-checkout-agreements": "^100.4",
+        "magento/module-customer": "^103.0",
+        "magento/module-directory": "^100.4",
+        "magento/module-quote": "^101.2",
+        "magento/module-sales": "^103.0",
+        "magento/module-store": "^101.1",
+        "magebooster/module-license": "^1.0",
+        "dompdf/dompdf": "^2.0 || ^3.0"
+    },
+    "suggest": {
+        "magebooster/module-contract-hyva": "Filled contract preview in MageBooster Checkout (Alpine.js, Hyvä and Luma themes)"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "MageBooster\\Contract\\": ""
+        }
+    }
+}

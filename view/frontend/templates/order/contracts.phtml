@@ -1,0 +1,37 @@
+<?php
+/*
+ * Copyright (c) 2026 WebWorks 101 OÜ (MageBooster). All rights reserved.
+ * Commercial licence, see LICENSE.txt. https://magebooster.com
+ * Licensed per serial number for one production installation (one store domain); staging and
+ * development copies of that store are allowed. Serial numbers and downloads are tied to the customer.
+ * You may modify this code for your own licensed store; keep this notice.
+ * Not allowed: copying to other stores, redistributing, reselling, sublicensing, publishing it publicly,
+ * removing licence checks or notices, sharing serial numbers. Unauthorised use: the serial number is
+ * revoked without refund, updates and support stop, damages and legal action may follow.
+ * Estonian law applies; court: Harju County Court (Harju Maakohus).
+ */
+/**
+ * @var \MageBooster\Contract\Block\Order\Contracts $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+$records = $block->getRecords();
+if (!$records) {
+    return;
+}
+?>
+<div class="block block-order-details-view mb-contract-records">
+    <div class="block-title">
+        <strong><?= $escaper->escapeHtml(__('Contracts')) ?></strong>
+    </div>
+    <div class="block-content">
+        <ul class="items">
+            <?php foreach ($records as $record): ?>
+                <li class="item">
+                    <a href="<?= $escaper->escapeUrl($block->getDownloadUrl($record)) ?>" class="action download">
+                        <span><?= $escaper->escapeHtml(__('Download %1', $record->getAgreementName())) ?></span>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</div>

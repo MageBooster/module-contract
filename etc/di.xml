@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!--
+  Copyright (c) 2026 WebWorks 101 OÜ (MageBooster). All rights reserved.
+  Commercial licence, see LICENSE.txt. https://magebooster.com
+  Licensed per serial number for one production installation (one store domain); staging and
+  development copies of that store are allowed. Serial numbers and downloads are tied to the customer.
+  You may modify this code for your own licensed store; keep this notice.
+  Not allowed: copying to other stores, redistributing, reselling, sublicensing, publishing it publicly,
+  removing licence checks or notices, sharing serial numbers. Unauthorised use: the serial number is
+  revoked without refund, updates and support stop, damages and legal action may follow.
+  Estonian law applies; court: Harju County Court (Harju Maakohus).
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="MageBooster\License\Model\Products">
+        <arguments>
+            <argument name="products" xsi:type="array">
+                <item name="contract" xsi:type="string">Contract (Turkish distance sales contract)</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MageBooster\Contract\Model\Config">
+        <arguments>
+            <argument name="licenceCodes" xsi:type="array">
+                <item name="contract" xsi:type="string">contract</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MageBooster\Contract\Model\Mail\AttachmentContext" shared="true"/>
+    <type name="Magento\Sales\Model\Order\Email\Sender\OrderSender">
+        <plugin name="magebooster_contract_context" type="MageBooster\Contract\Plugin\OrderSenderContext"/>
+    </type>
+    <type name="Magento\Framework\Mail\TransportInterface">
+        <plugin name="magebooster_contract_attach" type="MageBooster\Contract\Plugin\AttachToOrderEmail" sortOrder="1000"/>
+    </type>
+    <virtualType name="MageBoosterContractLogger" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="name" xsi:type="string">magebooster_contract</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="file" xsi:type="object">MageBoosterContractLogHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="MageBoosterContractLogHandler" type="Magento\Framework\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">/var/log/magebooster_contract.log</argument>
+        </arguments>
+    </virtualType>
+    <type name="MageBooster\Contract\Model\Archiver">
+        <arguments>
+            <argument name="logger" xsi:type="object">MageBoosterContractLogger</argument>
+        </arguments>
+    </type>
+    <type name="MageBooster\Contract\Model\Mail\Attacher">
+        <arguments>
+            <argument name="logger" xsi:type="object">MageBoosterContractLogger</argument>
+        </arguments>
+    </type>
+    <type name="MageBooster\Contract\Plugin\OrderSenderContext">
+        <arguments>
+            <argument name="logger" xsi:type="object">MageBoosterContractLogger</argument>
+        </arguments>
+    </type>
+    <type name="MageBooster\Contract\Observer\ArchiveOnOrderSubmit">
+        <arguments>
+            <argument name="logger" xsi:type="object">MageBoosterContractLogger</argument>
+        </arguments>
+    </type>
+</config>
