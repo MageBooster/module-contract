@@ -16,7 +16,7 @@ This module fills the standard Magento **Terms and Conditions** texts with the o
 - Customer: the order page in My Account lists the contracts with a download link.
 - The order confirmation email gets the PDF attached (optionally also the HTML).
 - Every payment method works: the record is made when the order is placed, not in the payment step.
-- Without a valid serial nothing is filled, saved or attached; records already saved stay viewable.
+- Without a valid serial the module keeps working for 30 days (grace period, see Licence check below). After that nothing is filled, saved or attached; checkout still works and records already saved stay viewable.
 - Errors never block an order or an email; they are logged to `var/log/magebooster_contract.log`.
 
 The module does not give legal advice. The sample texts are drafts; have your texts reviewed by your lawyer.
@@ -90,6 +90,18 @@ made from the current order data and the active texts, and is marked "created la
 - *View order contracts (MageBooster)*: Contracts tab and downloads.
 - *Create missing order contracts (MageBooster)*: the "Create contracts now" button.
 - *Contract settings (MageBooster)*: the settings page.
+
+## Licence check (serial number)
+
+- Enter the serial in **Stores > Configuration > MageBooster > Licenses**, field **Contract (Turkish distance sales contract)** (Hyvä edition: **Contract (Turkish distance sales contract) (Hyvä edition)**). The serial starts with `MB1`.
+- The **License status** table on that page shows each module as **Active**, **Grace period** or **Switched off**. `bin/magento magebooster:license:status` shows the same.
+- Without a valid serial (none entered, not valid, expired, another domain or another product) the module keeps working for **30 days**.
+  - The 30 days start the first time the store sees the module without a valid serial.
+  - A valid serial ends the grace period. If that serial later stops being valid (for example it expires), a new 30-day period starts.
+- During and after the grace period, every admin page shows a notice that cannot be closed. It names the module, the reason, and the days left or the date it was switched off, with links to the Licenses page and to your serial numbers at https://store.magebooster.com/licences/account/.
+- Shoppers never see a licence message, and the check runs inside your store: nothing is sent to MageBooster.
+- Development hosts (`localhost`, `127.0.0.1`, `*.localhost`, `*.test`, `*.local`) always pass the domain check.
+- **After the 30 days:** contracts are no longer filled, saved with orders or attached to emails. Checkout keeps working: the Terms and Conditions checkbox stays required and shows the text exactly as written in Stores > Terms and Conditions (tags are not filled). Records already saved stay viewable.
 
 ## Troubleshooting
 

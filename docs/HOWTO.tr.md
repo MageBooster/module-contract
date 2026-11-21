@@ -16,7 +16,7 @@ sipariş bilgileriyle doldurur ve her siparişle birlikte bir kopyasını saklar
 - Müşteri: Hesabım'daki sipariş sayfasında sözleşmeler indirme bağlantısıyla listelenir.
 - Sipariş onay e-postasına PDF eklenir (isterseniz HTML de).
 - Her ödeme yöntemiyle çalışır: kayıt ödeme adımında değil, sipariş verildiğinde yapılır.
-- Geçerli seri numarası yoksa hiçbir şey doldurulmaz, saklanmaz, eklenmez; daha önce saklanan kayıtlar görüntülenebilir.
+- Geçerli seri numarası yoksa modül 30 gün çalışmaya devam eder (ek süre, aşağıdaki Lisans kontrolü bölümüne bakın). Sonra hiçbir şey doldurulmaz, saklanmaz, eklenmez; ödeme sayfası çalışır ve daha önce saklanan kayıtlar görüntülenebilir.
 - Hatalar siparişi ya da e-postayı hiçbir zaman durdurmaz; `var/log/magebooster_contract.log` dosyasına yazılır.
 
 Modül hukuki danışmanlık vermez. Örnek metinler taslaktır; metinlerinizi avukatınıza kontrol ettirin.
@@ -84,6 +84,18 @@ Metin siparişin şu anki bilgileri ve etkin metinlerle oluşturulur ve "sonrada
 - *Sipariş sözleşmelerini görüntüle (MageBooster)*: Sözleşmeler sekmesi ve indirme.
 - *Eksik sipariş sözleşmelerini oluştur (MageBooster)*: "Sözleşmeleri şimdi oluştur" düğmesi.
 - *Sözleşme ayarları (MageBooster)*: ayarlar sayfası.
+
+## Lisans kontrolü (seri numarası)
+
+- Seri numarasını **Stores > Configuration > MageBooster > Licenses** sayfasındaki **Contract (Turkish distance sales contract)** alanına girin (Hyvä sürümü: **Contract (Turkish distance sales contract) (Hyvä edition)**). Seri numarası `MB1` ile başlar.
+- Aynı sayfadaki **License status** tablosu her modülün durumunu gösterir: **Etkin**, **Ek süre** veya **Kapalı**. `bin/magento magebooster:license:status` komutu da aynı bilgiyi verir.
+- Geçerli bir seri numarası yoksa (hiç girilmemiş, geçersiz, süresi dolmuş, başka bir alan adı ya da başka bir ürün için) modül **30 gün** çalışmaya devam eder.
+  - 30 gün, mağaza modülü geçerli seri numarası olmadan ilk gördüğü anda başlar.
+  - Geçerli bir seri numarası girilince ek süre biter. Bu seri numarası sonradan geçersiz olursa (örneğin süresi dolarsa) yeni bir 30 günlük süre başlar.
+- Ek süre boyunca ve sonrasında her yönetim paneli sayfasında kapatılamayan bir bildirim görünür. Bildirimde modülün adı, nedeni, kalan gün sayısı ya da kapandığı tarih yazar. Lisanslar sayfasına ve https://store.magebooster.com/licences/account/ adresindeki seri numaralarınıza bağlantı verir.
+- Müşteriler mağazada hiçbir lisans mesajı görmez. Kontrol mağazanın içinde yapılır, MageBooster'a hiçbir bilgi gönderilmez.
+- Geliştirme adresleri (`localhost`, `127.0.0.1`, `*.localhost`, `*.test`, `*.local`) alan adı kontrolüne takılmaz.
+- **30 gün dolunca:** sözleşmeler artık doldurulmaz, siparişle saklanmaz ve e-postalara eklenmez. Ödeme sayfası çalışmaya devam eder: Şartlar ve Koşullar onay kutusu zorunlu kalır ve metin, Stores > Terms and Conditions bölümünde yazıldığı haliyle görünür (etiketler doldurulmaz). Daha önce saklanan kayıtlar görüntülenebilir.
 
 ## Sorun giderme
 

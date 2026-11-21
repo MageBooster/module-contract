@@ -38,7 +38,7 @@
         "magento/module-quote": "^101.2",
         "magento/module-sales": "^103.0",
         "magento/module-store": "^101.1",
-        "magebooster/module-license": "^1.0",
+        "magebooster/module-license": "^1.1",
         "dompdf/dompdf": "^2.0 || ^3.0"
     },
     "suggest": {

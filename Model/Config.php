@@ -39,7 +39,7 @@ class Config
     private ?bool $licensed = null;
 
     /**
-     * @param string[] $licenceCodes serial product codes that unlock the module (any one is enough)
+     * @param string[] $licenceCodes deprecated since 1.1.0: accepted serial codes are registered on MageBooster\\License\\Model\\Products
      */
     public function __construct(
         private ScopeConfigInterface $scopeConfig,
@@ -58,16 +58,16 @@ class Config
         return $this->flag('general/enabled', $storeId);
     }
 
-    /** A valid serial for any of the licence codes. */
+    /**
+     * Valid serial (contract or contract-hyva) or still within the 30-day grace period (MageBooster_License).
+     */
     public function isLicensed(): bool
     {
         if ($this->licensed === null) {
-            $this->licensed = false;
-            foreach ($this->licenceCodes as $code) {
-                if ($this->license->isValid($code)) {
-                    $this->licensed = true;
-                    break;
-                }
+            try {
+                $this->licensed = $this->license->isActive(self::DEFAULT_LICENCE_CODE);
+            } catch (\Throwable $e) {
+                $this->licensed = false;
             }
         }
         return $this->licensed;

@@ -14,7 +14,13 @@
     <type name="MageBooster\License\Model\Products">
         <arguments>
             <argument name="products" xsi:type="array">
-                <item name="contract" xsi:type="string">Contract (Turkish distance sales contract)</item>
+                <item name="contract" xsi:type="array">
+                    <item name="label" xsi:type="string">Contract (Turkish distance sales contract)</item>
+                    <item name="codes" xsi:type="array">
+                        <item name="contract" xsi:type="string">contract</item>
+                        <item name="contract-hyva" xsi:type="string">contract-hyva</item>
+                    </item>
+                </item>
             </argument>
         </arguments>
     </type>
